@@ -1,8 +1,6 @@
 .idea
 lightning_logs
 data.pickle
-*.wav
-!data/*.wav
 
 
 # Byte-compiled / optimized / DLL files
