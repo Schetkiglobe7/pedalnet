@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 from werkzeug.utils import secure_filename
 import datetime
 import os
 from os.path import join, dirname, realpath
+import glob
+import json
 
 UPLOAD_FOLDER = 'static/audio/'
 ALLOWED_EXTENSIONS =  set(['wav'])
@@ -31,11 +33,20 @@ def trainpage():
 
 @app.route("/upload_train_files", methods=['POST'])
 def upload_files():
+	print("UPLOAD TRAIN FILES")
 	uploaded_file = request.files['file']
 	if uploaded_file.filename != '' and allowed_file(uploaded_file.filename):
 		filename = secure_filename(uploaded_file.filename)
 		uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'] + filename))
 	return redirect(url_for('homepage'))
+
+@app.route("/get_file_list", methods=['POST'])
+def getFileList():
+	data = []
+	for val in glob.glob(app.config['UPLOAD_FOLDER'] + "*.wav"):
+		data.append(val.split("/")[2])
+		print(data)
+	return Response(json.dumps(data), mimetype='application/json')
 
 # color1: #8e7cc3
 # color2: #6a329f

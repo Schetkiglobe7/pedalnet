@@ -1,0 +1,53 @@
+.dropzone {
+    min-height: 250px !important;
+    border: 2px dashed #8e7cc3 !important;
+    background: white !important;
+    padding: 20px 20px !important;
+    border-radius: 5% !important;
+}
+
+.dropzone .dz-message .dz-button {
+	padding: 70px 0 !important;
+}
+
+/* Increase modal max-width */
+.modal-lg {
+    max-width: 80% !important;
+}
+
+.close:hover{
+	color: red !important;
+}
+
+.close {
+	color: white !important;
+}
+
+.loader-inner {
+	background-color: #8e7cc3 !important;
+}
+
+
+.dropdown-item.active, .dropdown-item:active {
+	color: black !important;
+	text-decoration: none;
+	background: rgba(142, 124, 195, .1);
+	text-decoration-style: black !important;
+}
+
+.bootstrap-select .dropdown-menu li a span.text {
+	color: #8e7cc3;
+	display: inline-block;
+}
+
+.modal-header {
+	background-color: #8e7cc3 !important;
+}
+
+.modal-header h1 {
+	color: white !important;
+}
+
+.modal-footer {
+	background-color: #8e7cc3 !important;
+}
