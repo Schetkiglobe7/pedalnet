@@ -64,14 +64,54 @@ $("document").ready(function() {
     	
     });
 
-    $('#inputSoundSelect').on('change', function() {
-  		alert( this.value );
-  		/* CHIAMATA JQUERY PER CALCOLARE I GRAFICI */
-	});
+	$("#testForm").submit(function (event) {
+	event.preventDefault();
+	let form = $(this);
+    let url = form.attr('action');
+    console.log(`URL: ${url}`);
+	console.log(`INPUT: ${$('#inputSoundSelect').val()}`);
+	console.log(`OUTPUT: ${$('#outputSoundSelect').val()}`);
 
-	$('#outputSoundSelect').on('change', function() {
-  		alert( this.value );
-  		/* CHIAMATA JQUERY PER CALCOLARE I GRAFICI */
-	});
+    let data = {
+      'input_file_path' : $('#inputSoundSelect').val(),
+      'output_file_path': $('#outputSoundSelect').val()
+    };
+
+    $.ajax({
+    	url: url,
+    	contentType: "application/json;charset=utf-8",
+    	method: 'POST',
+    	dataType: "json",
+    	data: JSON.stringify(data, null, '\t'),
+      beforeSend: function() {
+      	$(".css-loader").show();
+      },
+      success: function(data) {
+      	console.log('success');
+      	$(".css-loader").fadeOut(9999999);
+      	console.log(data);
+
+      	$("#waveSound").empty();
+      	$("#waveSound").append(data['soundWaves']);
+
+      	$("#spectrums").empty();
+      	$("#spectrums").append(data['spectrums']);
+
+      	$("#envelopes").empty();
+      	$("#envelopes").append(data['envelopes']);
+
+      },
+      error: function(data) {
+      	console.log('error');
+/*
+      	$(".css-loader").fadeOut(9999999);
+      	console.log(data);
+      	$("#waveSound").empty();
+      	$("#waveSound").append(data['soundWaves']);
+*/
+      }
+    });
+
+  });
 
 });

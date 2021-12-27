@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, send_file
 from werkzeug.utils import secure_filename
 import datetime
 import os
 from os.path import join, dirname, realpath
 import glob
 import json
+from utility import getSoundWave, getSpectrum
 
 UPLOAD_FOLDER = 'static/audio/'
 ALLOWED_EXTENSIONS =  set(['wav'])
@@ -47,6 +48,25 @@ def getFileList():
 		data.append(val.split("/")[2])
 		print(data)
 	return Response(json.dumps(data), mimetype='application/json')
+
+@app.route("/test", methods = ['POST'])
+def makeGrafici():
+	data = request.get_json()
+	input_file_path = data['input_file_path']
+	output_file_path = data['output_file_path']
+	print(input_file_path, " - ", output_file_path)
+	soundWaves = getSoundWave([input_file_path, output_file_path])
+	spectrums = getSpectrum([input_file_path, output_file_path])
+	#envelopes = getHLEnvelope([input_file_path, output_file_path])
+	out = {}
+	out['soundWaves'] = f"<img src='data:image/png;base64,{soundWaves}'/>"
+	out['spectrums']  = f"<img src='data:image/png;base64,{spectrums}'/>"
+	return out
+	
+
+
+
+	return "ok"
 
 # color1: #8e7cc3
 # color2: #6a329f
